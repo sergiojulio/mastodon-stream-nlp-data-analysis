@@ -6,7 +6,6 @@ from pyspark.sql.types import TimestampType, StringType, FloatType, StructType, 
 import pyspark.sql.functions as F
 from pyspark.sql.functions import udf
 import time
-import re
 from textblob import TextBlob
 import os
 
@@ -36,22 +35,18 @@ def write_to_pgsql(df, epoch_id):
 
 def polarity(string):
 
-    if type(string) != str:
+    if not isinstance(string, str):
         return 0
 
     blob = TextBlob(string)
-    p = c = i = 0
-    for sentence in blob.sentences:
-        c = sentence.sentiment.polarity + c
-        i += 1
-        
-    if i > 0:
-        p = c / i
-        p = round(p,2)
-    else:
-        p = 0
+    sentences = blob.sentences
+    if not sentences:
+        return 0
 
-    return p
+    polarity_sum = sum(sentence.sentiment.polarity for sentence in sentences)
+    average_polarity = polarity_sum / len(sentences)
+    
+    return round(average_polarity, 2)
 
 
 def init_spark():
@@ -76,9 +71,6 @@ if __name__ == "__main__":
 
     spark,sc = init_spark()
 
-
-    # .option("startingOffsets", "latest") 
-
     streamdf = spark \
         .readStream \
         .format("kafka") \
@@ -95,8 +87,7 @@ if __name__ == "__main__":
         StructField("text", StringType())
     ])
 
-    udf_polarity = udf(polarity, FloatType()) # if the function returns an int
-
+    udf_polarity = udf(polarity, FloatType()) 
 
     streamdf = streamdf.selectExpr("CAST(value AS STRING)") \
             .select(F.from_json("value", schema=schema).alias("data")) \
@@ -123,7 +114,6 @@ if __name__ == "__main__":
         .option("truncate", "true")\
         .format("console") \
         .start() 
-        #.awaitTermination()
 
     # remove row with polarity null streamdf
     streamdf = streamdf.filter(streamdf.polarity. isNotNull())
@@ -135,7 +125,6 @@ if __name__ == "__main__":
         .outputMode("update")  \
         .foreachBatch(write_to_pgsql) \
         .start()
-        #.awaitTermination() 
 
     spark.streams.awaitAnyTermination()
     

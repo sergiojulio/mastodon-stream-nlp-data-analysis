@@ -11,7 +11,6 @@ postgres_pass = os.environ["POSTGRES_PASS"]
 postgres_server = os.environ["POSTGRES_SERVER"]
 
 
-
 st.set_page_config(
     page_title="Streaming npl data analysis",
     page_icon="✅",
@@ -22,6 +21,7 @@ st.set_page_config(
 )
 
 # Initialize connection.
+# no secrets.toml 
 conn = st.connection(
         "local_db", 
         type="sql",
@@ -39,10 +39,9 @@ for seconds in range(600):
     with placeholder.container():
 
         st.markdown("### Mastodon NPL Analisys Pipeline - key word list: " + mastodon_key_word_list)
-        #st.line_chart(data=None, *, x=None, y=None, color=None, width=0, height=0, use_container_width=True)
         st.line_chart(data=df, x='created', y='polarity')
         st.markdown("### Detailed Data View")
-        df1 = df.sort_values(by='created', ascending=False)
         # sort desc
+        df1 = df.sort_values(by='created', ascending=False)
         st.dataframe(df1, width=1500)
         time.sleep(1)
