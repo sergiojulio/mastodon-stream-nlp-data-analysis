@@ -1,16 +1,13 @@
 # mastodon-stream-nlp-data-analysis
 
-This repository contains source files for mastodon stream npl polarity analysis. I built an end-to-end batching pipeline keeping all simple and understable. There are two ways to generate streaming data: first one you must have a mastodon account and get an AccessToken (is free). The second ways is generating a fake stream of data (included in this files). Either way you will be able to run the pipeline to see how these services work together.
+This repository contains source files for mastodon stream npl polarity analysis. I built an end-to-end batch pipeline keeping all simple and understable. There are two ways to generate streaming data: first one you must have a mastodon account and get an AccessToken (is free). The second way is generating a fake stream of data (included in this files). Either way you will be able to run the pipeline to see how these services work together.
 
 ![alt text](assets/diagram.png "P2")
 
-Prerequisites:
 
-Make sure you have:
+Make sure you have installed the latest version of Docker Compose
 
-Installed the latest version of Docker Compose
-
-The firt step is build and start all the services in [text](docker-compose.yml)
+The first step is build and start all the services in [docker-compose.yml](docker-compose.yml)
 
 ```
 cd ./mastodon-stream-nlp-data-analysis
@@ -18,17 +15,17 @@ cd ./mastodon-stream-nlp-data-analysis
 docker-compose up -d
 ```
 
-If you have installed docker desktop you should see something like this:
+If you have installed docker desktop you should see something similar to this:
 
 ![alt text](assets/docker.png)
 
-Next we need to start the producer!
+Now we need to start the producer!
 
 ```
 curl localhost:8080/streaming_csv
 ```
 
-This will send to kafka service a string every 5 seconds
+This will send to kafka service a json string every 5 seconds
 
 If you want to see it in action (optional):
 
@@ -61,7 +58,7 @@ spark-submit \
 ./main.py
 ```
 
-The batch process save the transformated data in PostgreSQL
+The batch process save the data enriched in PostgreSQL table called stream:
 
 ![alt text](assets/postgresql.png)
 
@@ -75,7 +72,7 @@ cd src/app/streamlit
 streamlit run main.py
 ```
 
-And just open the following url in your browser:
+And finally, open the following url in your web browser:
 
 http://localhost:8501/
 
