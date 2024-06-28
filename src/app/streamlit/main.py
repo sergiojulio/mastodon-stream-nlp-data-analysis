@@ -32,13 +32,13 @@ placeholder = st.empty()
 
 # near real-time / live feed simulation
 # while True:
-for seconds in range(600):
+for seconds in range(3600): # 1 hour
 
     df = conn.query('SELECT * FROM (SELECT * FROM stream WHERE created IS NOT NULL ORDER BY created DESC LIMIT 10) A ORDER BY created ASC;', ttl="1s") # ttl for caching
 
     with placeholder.container():
 
-        st.markdown("### Mastodon NPL Analisys Pipeline - key word list: " + mastodon_key_word_list)
+        st.markdown("### Mastodon NPL Analysis Pipeline - key word list: " + mastodon_key_word_list)
         st.line_chart(data=df, x='created', y='polarity')
         st.markdown("### Detailed Data View")
         # sort desc

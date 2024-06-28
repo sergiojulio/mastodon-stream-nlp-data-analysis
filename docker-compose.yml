@@ -6,7 +6,7 @@ services:
       context: ./ # specify context, this case root pah
       dockerfile: ./docker/app/Dockerfile # location
     # command: uvicorn src.app.fastapi.main:app --host 0.0.0.0 --port 8080 --reload
-    command: uvicorn src.app.fastapi.main:app --host 0.0.0.0 --port 8080
+    command: python -m uvicorn src.app.fastapi.main:app --host 0.0.0.0 --port 8080
     ports:
       - 8080:8080 # fastapi
       - 8501:8501 # streamlit

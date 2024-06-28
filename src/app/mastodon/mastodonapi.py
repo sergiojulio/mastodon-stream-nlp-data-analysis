@@ -16,23 +16,16 @@ class MastodonApiListiner(mastodon.StreamListener):
 
     def on_update(self, status):
 
-        #### Build our Regex
         words_re = re.compile("|".join(self.mastodon_key_word_list.split(",")), re.IGNORECASE)
-
         # only english language
         if words_re.search(status.content) and str(status.language) == "en":
-
             # remove html tags
             text = self.clean_post(status.content)
-            
             # for debug purposes
-            print(text)
-            
+            # print(text)
             kafka_topic = self.kafka_topic 
-
             # Use a standard date format instead, preferably ISO-8601. 2015-09-01T16:34:02
             now = datetime.datetime.now().replace(microsecond=0).isoformat()
-            
             # dont send text empty
             if text:
                 self.send(kafka_topic, {'created': str(now), 'text': text})
@@ -54,7 +47,6 @@ class MastodonApiListiner(mastodon.StreamListener):
         temp = post.lower()
         temp = re.sub("'", "", temp) 
         temp = re.sub("@[A-Za-z0-9_]+","", temp)
-        #temp = re.sub("#[A-Za-z0-9_]+","", temp)
         temp = re.sub('<[^<]+?>', '', str(temp))
         temp = re.sub(r'http\S+', '', temp)
         temp = re.sub('[()!?]', ' ', temp)
@@ -77,12 +69,8 @@ class Mastodonapi():
         mastodon = Mastodon(version_check_mode="none",
                             access_token=access_token, 
                             api_base_url="https://mastodon.social/")
-        
+        # for debug purposes
         # print(mastodon.account_verify_credentials())
         listener = MastodonApiListiner()
         listener.kafka(kafka_producer, kafka_topic, mastodon_key_word_list)
         mastodon.stream_public(listener=listener)
-
-
-
-

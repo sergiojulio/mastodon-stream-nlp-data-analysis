@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 from fastapi import FastAPI
+from fastapi.responses import StreamingResponse
 from kafka import KafkaProducer
 from src.app.mastodon.mastodonapi import Mastodonapi
 
@@ -22,9 +23,7 @@ access_token = os.getenv('ACCESS_TOKEN')
 
 app = FastAPI()
 
-@app.get("/streaming_csv")
-async def root():
-
+def streaming_csv():
     parent_dir_path = os.path.dirname(os.path.realpath(__file__))
     kafka_producer = KafkaProducer(value_serializer=lambda v: json.dumps(v).encode('utf-8'), 
                                 bootstrap_servers=kafka_server) 
@@ -34,11 +33,17 @@ async def root():
 
     for row in reader:
         now = datetime.datetime.now().replace(microsecond=0).isoformat()
-        kafka_producer.send(kafka_topic, {'created': str(now), 'text': row['text']})
+        data = {'created': str(now), 'text': row['text']}
+        kafka_producer.send(kafka_topic, data)
+        yield json.dumps(data) + "\n"
         time.sleep(5)
 
     kafka_producer.close()
-    return {"message": "finished"}
+
+
+@app.get("/streaming_csv")
+async def root():
+    return StreamingResponse(streaming_csv(), media_type='text/event-stream')
 
 
 @app.get("/streaming_mastodon")
