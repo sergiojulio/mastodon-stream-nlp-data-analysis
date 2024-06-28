@@ -2,7 +2,7 @@
 
 This repository contains source files for mastodon stream npl polarity analysis. I built an end-to-end batching pipeline keeping all simple and understable. There are two ways to generate streaming data: first one you must have a mastodon account and get an AccessToken (is free). The second ways is generating a fake stream of data (included in this files). Either way you will be able to run the pipeline to see how these services work together.
 
-![alt text](assetsdiagram.png "P2")
+![alt text](assets/diagram.png "P2")
 
 Prerequisites:
 
@@ -18,16 +18,19 @@ cd ./mastodon-stream-nlp-data-analysis
 docker-compose up -d
 ```
 
-If you have installed docker desktop you should see something like this
-![alt text](assets/diagram.png)
+If you have installed docker desktop you should see something like this:
+
+![alt text](assets/docker.png)
 
 Next we need to start the producer!
 
+```
 curl localhost:8080/streaming_csv
+```
 
 This will send to kafka service a string every 5 seconds
 
-If you want see it in action:
+If you want to see it in action (optional):
 
 ```
 docker exec -it kafka-server bash
@@ -59,6 +62,7 @@ spark-submit \
 ```
 
 The batch process save the transformated data in PostgreSQL
+
 ![alt text](assets/postgresql.png)
 
 And now we need to connect to python server to start the streamlit app:
