@@ -1,11 +1,27 @@
-# mastodon-stream-nlp-data-analysis
+# Mastodon Stream NPL Data Analysis P2
 
 This repository contains source files for mastodon stream npl polarity analysis. I built an end-to-end batch pipeline keeping all simple and understable. There are two ways to generate streaming data: first one you must have a mastodon account and get an AccessToken (is free). The second way is generating a fake stream of data (included in this files). Either way you will be able to run the pipeline to see how these services work together.
 
+## Architecture
+
 ![alt text](assets/diagram.png "P2")
 
+This data engineering project, includes the following:
+
+1. **`Mastodon Stream API`**: Source events for real time via HTTP connection.
+2. **`FastApi`**: High performance web framework for building APIs with Python. 
+3. **`Apache Kafka`**: Event stream in real time.
+4. **`Apache Spark`**: To process the streaming data and to run polarity algorithm.
+5. **`TextBlob`**: Python library for processing textual data.
+6. **`Postgres`**: Relational database to store the enriched data.
+7. **`Streamlit`**: Allows to create interactive web apps from Python scripts.
+8. **`Docker`**: To run container applications.
+
+## Requirements
 
 Make sure you have installed the latest version of Docker Compose
+
+## Build and spin up services
 
 The first step is build and start all the services in [docker-compose.yml](docker-compose.yml)
 
