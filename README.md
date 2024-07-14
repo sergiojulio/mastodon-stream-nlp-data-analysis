@@ -9,13 +9,15 @@ This repository contains source files for mastodon stream npl polarity analysis.
 This data engineering project, includes the following:
 
 1. **`Mastodon Stream API`**: Source events for real time via HTTP connection.
-2. **`FastApi`**: High performance web framework for building APIs with Python. 
-3. **`Apache Kafka`**: Event stream in real time.
-4. **`Apache Spark`**: To process the streaming data and to run polarity algorithm.
-5. **`TextBlob`**: Python library for processing textual data.
-6. **`Postgres`**: Relational database to store the enriched data.
-7. **`Streamlit`**: Allows to create interactive web apps from Python scripts.
-8. **`Docker`**: To run container applications.
+2. **`FastApi`**: Web framework for building APIs with Python. 
+3 .**`Apache ZooKeeper`**: Manages the distributed environment.
+4. **`Apache Kafka`**: A distributed streaming platform.
+5. **`Apache Spark`**: Process the streaming data and to run polarity algorithm.
+6. **`TextBlob`**: Python library for processing textual data.
+7. **`PostgreSQL`**: Relational database to store the enriched data.
+8. **`Streamlit`**: Allows to create interactive web apps from Python scripts.
+9. **`Docker`**: To run container applications.
+
 
 ## Requirements
 
