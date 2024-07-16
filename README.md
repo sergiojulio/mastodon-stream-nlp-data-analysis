@@ -10,7 +10,7 @@ This data engineering project, includes the following:
 
 1. **`Mastodon Stream API`**: Source events for real time via HTTP connection.
 2. **`FastApi`**: Web framework for building APIs with Python. 
-3 .**`Apache ZooKeeper`**: Manages the distributed environment.
+3. **`Apache ZooKeeper`**: Manages the distributed environment.
 4. **`Apache Kafka`**: A distributed streaming platform.
 5. **`Apache Spark`**: Process the streaming data and to run polarity algorithm.
 6. **`TextBlob`**: Python library for processing textual data.
