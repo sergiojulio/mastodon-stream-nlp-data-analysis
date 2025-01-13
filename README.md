@@ -1,6 +1,12 @@
 # Mastodon Stream NPL Data Analysis P2
 
-This repository contains source files for mastodon stream npl polarity analysis. I built an end-to-end batch pipeline keeping all simple and understable. There are two ways to generate streaming data: first one you must have a mastodon account and get an AccessToken (is free). The second way is generating a fake stream of data (included in this files). Either way you will be able to run the pipeline to see how these services work together.
+This repository contains source files for Mastodon stream NLP polarity analysis. I built an end-to-end batch pipeline, keeping everything simple and understandable. There are two ways to generate streaming data:
+
+1. Using a Mastodon account and obtaining an AccessToken (it's free).
+2. Generating a fake stream of data (included in these files).
+
+Either way, you will be able to run the pipeline and observe how these services work together.
+
 
 ## Architecture
 
