@@ -14,15 +14,15 @@ Either way, you will be able to run the pipeline and observe how these services 
 
 This data engineering project, includes the following:
 
-1. **`Mastodon Stream API`**: Source events for real time via HTTP connection.
+1. **`Mastodon Stream API`**: Sources events for real time via HTTP connection.
 2. **`FastApi`**: Web framework for building APIs with Python. 
 3. **`Apache ZooKeeper`**: Manages the distributed environment.
 4. **`Apache Kafka`**: A distributed streaming platform.
-5. **`Apache Spark`**: Process the streaming data and to run polarity algorithm.
-6. **`TextBlob`**: Python library for processing textual data.
+5. **`Apache Spark`**: Process the streaming data and runs polarity algorithm.
+6. **`TextBlob`**: A python library for processing textual data.
 7. **`PostgreSQL`**: Relational database to store the enriched data.
-8. **`Streamlit`**: Allows to create interactive web apps from Python scripts.
-9. **`Docker`**: To run container applications.
+8. **`Streamlit`**: Enables the creation of interactive web apps from Python scripts.
+9. **`Docker`**: Used to run containerized applications.
 
 
 ## Requirements
